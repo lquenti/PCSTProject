@@ -4,6 +4,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
+# Used actions and the docs for them:
+# https://github.com/marketplace/actions/setup-maven-action (community)
+# https://github.com/actions/upload-artifact (official)
+
 jobs:
   build:
     name: Build Works
@@ -23,5 +28,16 @@ jobs:
         uses: s4u/setup-maven-action@v1.13.0
       - name: Run Junit tests (including integration tests and jacoco coverage)
         run: mvn test
-      - name: Create Mutation coverage
+      - name: Upload jacoco report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco
+          path: target/site/jacoco
+      - name: Create Mutation coverage (pit)
         run: "mvn test compile org.pitest:pitest-maven:mutationCoverage"
+      - name: Upload pit report
+        uses: actions/upload-artifact@v3
+        with:
+          name: pit
+          path: target/pit-reports
+
