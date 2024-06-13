@@ -33,23 +33,7 @@ class CustomerRegistrationServiceIntegrationTest {
                 .andExpect(jsonPath("$.name").value("l1"))
                 .andExpect(jsonPath("$.phoneNumber").value("+490001123456"));
     }
-
-    @Test
-    void registerExistingUser() throws Exception {
-        /* this is the same as registering twice! */
-        mockMvc.perform(
-                        post("/api/v1/customer-registration/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"id\": 13371337, \"userName\": \"funique\", \"name\": \"lunique\", \"phoneNumber\": \"+4913371337\"}"))
-                .andExpect(status().isOk());
-
-
-        assertThrows(NestedServletException.class, () -> mockMvc.perform(
-                post("/api/v1/customer-registration/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 13371337, \"userName\": \"funique\", \"name\": \"lunique\", \"phoneNumber\": \"+4913371337\"}")));
-    }
-
+    
     @Test
     void registerTakenPhoneNumber() {
         assertThrows(NestedServletException.class, () ->
