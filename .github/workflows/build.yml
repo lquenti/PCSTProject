@@ -13,7 +13,7 @@ jobs:
       - name: Setup Maven Action
         uses: s4u/setup-maven-action@v1.13.0
       - name: Build with mvn
-        run: echo "TODO build mvn"
+        run: mvn clean install
   test:
     name: Tests
     runs-on: ubuntu-latest
